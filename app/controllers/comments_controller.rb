@@ -28,10 +28,15 @@ class CommentsController < ApplicationController
   end
 
   # DELETE /comments/1
+  # Only comment owner OR post author can delete
   def destroy
-    post = @comment.post
-    @comment.destroy!
-    redirect_to post_path(post), notice: "Comment was successfully destroyed.", status: :see_other
+    if @comment.user == current_user || @comment.post.user == current_user
+      post = @comment.post
+      @comment.destroy!
+      redirect_to post_path(post), notice: "Comment was successfully destroyed.", status: :see_other
+    else
+      redirect_to post_path(@comment.post), alert: "You can only delete your own comments."
+    end
   end
 
   private
