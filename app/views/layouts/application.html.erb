@@ -24,7 +24,27 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+    <nav class="bg-white shadow px-5 py-3 flex justify-between items-center">
+      <span class="font-bold text-lg">OddlyHonest</span>
+      <div>
+        <% if user_signed_in? %>
+          <span class="text-sm text-gray-600 mr-3"><%= current_user.email %></span>
+          <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm text-red-600" %>
+        <% else %>
+          <%= link_to "Login", new_user_session_path, class: "text-sm text-blue-600 mr-3" %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "text-sm text-blue-600" %>
+        <% end %>
+      </div>
+    </nav>
+
+    <% if notice.present? %>
+      <p class="bg-green-100 text-green-800 px-5 py-2 text-sm"><%= notice %></p>
+    <% end %>
+    <% if alert.present? %>
+      <p class="bg-red-100 text-red-800 px-5 py-2 text-sm"><%= alert %></p>
+    <% end %>
+
+    <main class="container mx-auto mt-8 px-5 flex">
       <%= yield %>
     </main>
   </body>

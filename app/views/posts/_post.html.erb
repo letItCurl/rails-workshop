@@ -7,4 +7,7 @@
     <strong class="block font-medium mb-1">Body:</strong>
     <%= post.body %>
   </div>
+  <div class="text-sm text-gray-500">
+    Posted by: <%= post.user&.email || "Anonymous" %>
+  </div>
 </div>

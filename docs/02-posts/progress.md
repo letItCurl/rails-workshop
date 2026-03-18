@@ -21,6 +21,9 @@ mode: ""
 - Named routes.rb + schema.rb:
 
 ### Interaction Log
+- [--:--] question: asked what to do next / where to start
+- [--:--] type: how-to
+- [--:--] independence: asked-directly
 
 ### Branch Summary
 - started:
