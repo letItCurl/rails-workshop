@@ -19,4 +19,12 @@ class CommentTest < ActiveSupport::TestCase
     comment = Comment.new(body: "Great truth!", post: post, user: user)
     assert comment.valid?
   end
+
+  test "comment requires body" do
+    user = User.create!(email: "test3@test.com", password: "password")
+    post = Post.create!(title: "Test", body: "content")
+    comment = Comment.new(body: "", post: post, user: user)
+    assert_not comment.valid?
+    assert_includes comment.errors[:body], "can't be blank"
+  end
 end

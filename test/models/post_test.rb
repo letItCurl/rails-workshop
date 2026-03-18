@@ -19,4 +19,16 @@ class PostTest < ActiveSupport::TestCase
     post.update!(published: true)
     assert post.published?
   end
+
+  test "post requires title" do
+    post = Post.new(title: "", body: "content")
+    assert_not post.valid?
+    assert_includes post.errors[:title], "can't be blank"
+  end
+
+  test "post requires body" do
+    post = Post.new(title: "Title", body: "")
+    assert_not post.valid?
+    assert_includes post.errors[:body], "can't be blank"
+  end
 end
