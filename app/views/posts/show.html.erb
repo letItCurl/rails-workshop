@@ -47,24 +47,33 @@
   <% end %>
 </article>
 
-<section class="mt-12 pt-8 border-t border-gray-200">
-  <h2 class="text-xl font-semibold mb-6">Comments</h2>
+<section class="mt-12 pt-8 border-t border-gray-200" data-controller="toggle">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl font-semibold">Comments (<%= @post.comments.count %>)</h2>
+    <button data-action="click->toggle#toggle" class="text-sm text-gray-500 hover:text-blue-600 transition-colors cursor-pointer">
+      Toggle comments
+    </button>
+  </div>
 
   <%= turbo_stream_from @post %>
 
-  <div id="comments" class="divide-y divide-gray-100">
+  <div id="comments" class="divide-y divide-gray-100" data-toggle-target="content">
     <% @post.comments.includes(:user).each do |comment| %>
       <%= render comment %>
     <% end %>
   </div>
 
   <% if user_signed_in? %>
-    <div class="mt-8">
+    <div class="mt-8" data-controller="character-counter">
       <%= form_with(model: Comment.new, url: comments_path, class: "space-y-3") do |f| %>
         <%= f.hidden_field :post_id, value: @post.id %>
         <%= f.text_area :body, rows: 3, placeholder: "Share your truth...",
+            data: { character_counter_target: "input", action: "input->character-counter#updateCount" },
             class: "w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15 focus:outline-none transition-colors" %>
-        <%= f.submit "Comment", class: "bg-black text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-gray-800 transition-colors cursor-pointer" %>
+        <div class="flex justify-between items-center">
+          <span class="text-xs text-gray-400" data-character-counter-target="count">0 characters</span>
+          <%= f.submit "Comment", class: "bg-black text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-gray-800 transition-colors cursor-pointer" %>
+        </div>
       <% end %>
     </div>
   <% end %>
