@@ -22,3 +22,13 @@ puts "Seeding tags..."
 end
 
 puts "Seeded #{Tag.count} tags."
+
+# Create a demo user for seeded content
+puts "Seeding demo user..."
+demo_user = User.find_or_create_by!(email: "demo@oddlyhonest.com") do |user|
+  user.password = "password"
+end
+
+# Assign demo user to existing posts without a user
+Post.where(user_id: nil).update_all(user_id: demo_user.id)
+puts "Demo user: demo@oddlyhonest.com / password"
