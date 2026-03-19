@@ -14,3 +14,11 @@ puts "Seeding posts..."
 end
 
 puts "Seeded #{Post.count} posts."
+
+puts "Seeding tags..."
+
+%w[Ruby Rails Database Testing Hotwire].each do |name|
+  Tag.find_or_create_by!(name: name)
+end
+
+puts "Seeded #{Tag.count} tags."

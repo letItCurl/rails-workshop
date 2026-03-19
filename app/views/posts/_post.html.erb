@@ -7,7 +7,14 @@
     <strong class="block font-medium mb-1">Body:</strong>
     <%= post.body %>
   </div>
-  <div class="text-sm text-gray-500">
+  <% if post.tags.any? %>
+    <div class="flex flex-wrap gap-1 mt-2">
+      <% post.tags.each do |tag| %>
+        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"><%= tag.name %></span>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="text-sm text-gray-500 mt-1">
     Posted by: <%= post.user&.email || "Anonymous" %>
   </div>
 </div>

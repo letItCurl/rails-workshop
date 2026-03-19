@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tags
   resources :comments, except: [ :edit, :update ]
   devise_for :users
   resources :posts
