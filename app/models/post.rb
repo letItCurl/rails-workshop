@@ -4,6 +4,9 @@ class Post < ApplicationRecord
   has_many :post_tags, dependent: :destroy
   has_many :tags, through: :post_tags
 
+  has_rich_text :body
+  has_one_attached :cover_image
+
   validates :title, presence: true
   validates :body, presence: true
   validate :cannot_edit_once_published

@@ -1,10 +1,14 @@
-<div id="<%= dom_id post %>" class="w-full sm:w-auto my-5 space-y-5">
+<div id="<%= dom_id post %>" class="w-full sm:w-auto my-5 space-y-3">
+  <% if post.cover_image.attached? %>
+    <div class="mb-3">
+      <%= image_tag post.cover_image, class: "rounded-md max-h-64 object-cover w-full" %>
+    </div>
+  <% end %>
   <div>
     <strong class="block font-medium mb-1">Title:</strong>
     <%= post.title %>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Body:</strong>
+  <div class="prose">
     <%= post.body %>
   </div>
   <% if post.tags.any? %>
