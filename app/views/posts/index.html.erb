@@ -1,7 +1,9 @@
 <% content_for :title, "OddlyHonest" %>
 
+<%= turbo_stream_from "posts" %>
+
 <% if @posts.any? %>
-  <div class="divide-y divide-gray-200">
+  <div id="posts" class="divide-y divide-gray-200">
     <% @posts.each_with_index do |post, index| %>
       <article class="<%= index > 0 ? 'py-8' : 'pb-8' %>">
         <%= link_to post_path(post), class: "group block" do %>

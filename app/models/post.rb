@@ -7,6 +7,8 @@ class Post < ApplicationRecord
   has_rich_text :body
   has_one_attached :cover_image
 
+  broadcasts_to ->(post) { "posts" }
+
   validates :title, presence: true
   validates :body, presence: true
   validate :cannot_edit_once_published

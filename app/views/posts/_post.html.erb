@@ -1,10 +1,12 @@
 <div id="<%= dom_id post %>" class="py-4">
-  <% if post.cover_image.attached? %>
-    <div class="mb-3">
-      <%= image_tag post.cover_image, class: "rounded-lg w-full max-h-48 object-cover" %>
-    </div>
+  <%= link_to post_path(post), class: "group block" do %>
+    <% if post.cover_image.attached? %>
+      <div class="mb-3">
+        <%= image_tag post.cover_image, class: "rounded-lg w-full max-h-48 object-cover" %>
+      </div>
+    <% end %>
+    <h3 class="text-lg font-semibold text-black group-hover:text-blue-600 transition-colors"><%= post.title %></h3>
   <% end %>
-  <h3 class="text-lg font-semibold"><%= post.title %></h3>
   <p class="text-gray-600 mt-1 leading-relaxed"><%= post.excerpt %></p>
   <div class="mt-2 flex flex-wrap items-center gap-2">
     <% if post.tags.any? %>
@@ -12,6 +14,11 @@
         <span class="inline-block bg-blue-50 text-blue-700 text-xs px-2 py-0.5 rounded-full"><%= tag.name %></span>
       <% end %>
     <% end %>
-    <span class="text-sm text-gray-500"><%= post.user&.email || "Anonymous" %> · <%= post.reading_time %> min read</span>
+    <span class="text-sm text-gray-500">
+      <%= post.user&.email || "Anonymous" %> · <%= post.created_at.strftime("%b %-d, %Y") %> · <%= post.reading_time %> min read
+      <% if post.published? %>
+        · <span class="text-emerald-600">Published</span>
+      <% end %>
+    </span>
   </div>
 </div>
