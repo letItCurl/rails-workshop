@@ -4,4 +4,10 @@
 
 <h1 class="text-3xl font-bold mb-8">Edit post</h1>
 
-<%= render "form", post: @post %>
+<%= turbo_frame_tag @post do %>
+  <%= render "form", post: @post %>
+
+  <div class="mt-4">
+    <%= link_to "Cancel", @post, class: "text-gray-600 hover:text-blue-600 text-sm transition-colors" %>
+  </div>
+<% end %>

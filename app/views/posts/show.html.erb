@@ -27,20 +27,23 @@
     </div>
   </header>
 
-  <div class="prose prose-lg prose-gray font-serif">
-    <%= @post.body %>
-  </div>
+  <%= turbo_frame_tag @post do %>
+    <div class="prose prose-lg prose-gray font-serif">
+      <%= @post.body %>
+    </div>
 
-  <% if user_signed_in? && current_user == @post.user %>
-    <footer class="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row gap-3">
-      <% unless @post.published? %>
-        <%= button_to "Publish", post_path(@post), method: :patch,
-            params: { post: { published: true } },
-            class: "w-full sm:w-auto text-center bg-emerald-600 text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-emerald-700 transition-colors cursor-pointer" %>
-        <%= link_to "Edit", edit_post_path(@post), class: "w-full sm:w-auto text-center border border-gray-200 rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-50 transition-colors" %>
-      <% end %>
-      <%= button_to "Delete", @post, method: :delete, form_class: "w-full sm:w-auto", class: "w-full text-center text-red-600 border border-red-200 rounded-lg px-4 py-2 text-sm font-medium hover:bg-red-50 transition-colors cursor-pointer", data: { turbo_confirm: "Are you sure you want to delete this post?" } %>
-    </footer>
+    <% if user_signed_in? && current_user == @post.user %>
+      <footer class="mt-12 pt-8 border-t border-gray-200 flex flex-col sm:flex-row gap-3">
+        <% unless @post.published? %>
+          <%= button_to "Publish", post_path(@post), method: :patch,
+              params: { post: { published: true } },
+              class: "w-full sm:w-auto text-center bg-emerald-600 text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-emerald-700 transition-colors cursor-pointer" %>
+          <%= link_to "Edit inline", edit_post_path(@post),
+              class: "w-full sm:w-auto text-center border border-gray-200 rounded-lg px-4 py-2 text-sm font-medium hover:bg-gray-50 transition-colors" %>
+        <% end %>
+        <%= button_to "Delete", @post, method: :delete, form_class: "w-full sm:w-auto", class: "w-full text-center text-red-600 border border-red-200 rounded-lg px-4 py-2 text-sm font-medium hover:bg-red-50 transition-colors cursor-pointer", data: { turbo_confirm: "Are you sure you want to delete this post?" } %>
+      </footer>
+    <% end %>
   <% end %>
 </article>
 
