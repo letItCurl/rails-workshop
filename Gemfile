@@ -57,6 +57,9 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # Generate ERD diagrams from models
+  gem "rails-erd"
 end
 
 gem "devise", "~> 5.0"
