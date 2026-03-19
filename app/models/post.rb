@@ -11,6 +11,15 @@ class Post < ApplicationRecord
   validates :body, presence: true
   validate :cannot_edit_once_published
 
+  def excerpt
+    body.to_plain_text.truncate(160)
+  end
+
+  def reading_time
+    words = body.to_plain_text.split.size
+    [ words / 200, 1 ].max
+  end
+
   private
 
   def cannot_edit_once_published

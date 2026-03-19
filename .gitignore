@@ -36,6 +36,9 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+# Node modules
+/node_modules/
+
 # BMad Method scaffolding
 _bmad/
 _bmad-output/

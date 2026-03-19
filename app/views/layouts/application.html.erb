@@ -1,50 +1,59 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Oddly Honest" %></title>
+    <title><%= content_for(:title) || "OddlyHonest" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Oddly Honest">
-    <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
+  <body class="font-sans bg-white text-black">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded">Skip to main content</a>
 
-  <body>
-    <nav class="bg-white shadow px-5 py-3 flex justify-between items-center">
-      <span class="font-bold text-lg">OddlyHonest</span>
-      <div>
-        <% if user_signed_in? %>
-          <span class="text-sm text-gray-600 mr-3"><%= current_user.email %></span>
-          <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm text-red-600" %>
-        <% else %>
-          <%= link_to "Login", new_user_session_path, class: "text-sm text-blue-600 mr-3" %>
-          <%= link_to "Sign Up", new_user_registration_path, class: "text-sm text-blue-600" %>
-        <% end %>
+    <header class="border-b border-gray-200">
+      <div class="max-w-2xl mx-auto px-4 py-4 flex justify-between items-center">
+        <%= link_to "OddlyHonest", root_path, class: "text-xl font-bold text-black no-underline" %>
+        <div class="flex items-center gap-3">
+          <% if user_signed_in? %>
+            <span class="text-xs text-gray-500 hidden sm:inline"><%= current_user.email %></span>
+            <%= link_to "Write", new_post_path, class: "bg-black text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-gray-800 transition-colors" %>
+            <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-sm text-gray-600 hover:text-red-600 transition-colors" %>
+          <% else %>
+            <%= link_to "Login", new_user_session_path, class: "text-sm text-gray-600 hover:text-blue-600 transition-colors" %>
+            <%= link_to "Sign Up", new_user_registration_path, class: "bg-black text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-gray-800 transition-colors" %>
+          <% end %>
+        </div>
       </div>
-    </nav>
+    </header>
 
     <% if notice.present? %>
-      <p class="bg-green-100 text-green-800 px-5 py-2 text-sm"><%= notice %></p>
-    <% end %>
-    <% if alert.present? %>
-      <p class="bg-red-100 text-red-800 px-5 py-2 text-sm"><%= alert %></p>
+      <div class="max-w-2xl mx-auto px-4 mt-4" data-controller="notification">
+        <div role="alert" class="bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-lg px-4 py-3 flex items-center gap-2 text-sm" data-notification-target="message">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <%= notice %>
+        </div>
+      </div>
     <% end %>
 
-    <main class="container mx-auto mt-8 px-5 flex">
+    <% if alert.present? %>
+      <div class="max-w-2xl mx-auto px-4 mt-4" data-controller="notification">
+        <div role="alert" class="bg-red-50 text-red-600 border border-red-200 rounded-lg px-4 py-3 flex items-center gap-2 text-sm" data-notification-target="message">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          <%= alert %>
+        </div>
+      </div>
+    <% end %>
+
+    <main id="main" class="max-w-2xl mx-auto px-4 py-8 md:py-12">
       <%= yield %>
     </main>
   </body>
