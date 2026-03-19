@@ -50,19 +50,11 @@
 <section class="mt-12 pt-8 border-t border-gray-200">
   <h2 class="text-xl font-semibold mb-6">Comments</h2>
 
-  <div id="comments" class="space-y-0 divide-y divide-gray-100">
+  <%= turbo_stream_from @post %>
+
+  <div id="comments" class="divide-y divide-gray-100">
     <% @post.comments.includes(:user).each do |comment| %>
-      <div class="py-4">
-        <p class="text-gray-800 leading-relaxed"><%= comment.body %></p>
-        <div class="flex items-center justify-between mt-2">
-          <p class="text-sm text-gray-500"><%= comment.user&.email || "Anonymous" %> · <%= time_ago_in_words(comment.created_at) %> ago</p>
-          <% if user_signed_in? && (current_user == comment.user || current_user == @post.user) %>
-            <%= button_to "Delete", comment_path(comment), method: :delete,
-                class: "text-sm text-red-500 hover:text-red-700 cursor-pointer transition-colors",
-                data: { turbo_confirm: "Delete this comment?" } %>
-          <% end %>
-        </div>
-      </div>
+      <%= render comment %>
     <% end %>
   </div>
 
